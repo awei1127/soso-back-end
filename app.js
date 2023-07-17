@@ -4,7 +4,7 @@ const port = 3000
 
 // setting the route and corresponding response
 app.get('/', (req, res) => {
-  res.send(`This is my first Express Web App`)
+  res.send('This is my first Express Web App')
 })
 
 // Listen the server when it started
