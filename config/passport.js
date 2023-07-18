@@ -11,13 +11,13 @@ const { User } = require('../models')
 passport.use(new LocalStrategy(
   // customize user field
   {
-    usernameField: 'email',
+    usernameField: 'account',
     passwordField: 'password'
   },
   // authenticate user
-  async (email, password, done) => {
+  async (account, password, done) => {
     try {
-      const user = await User.findOne({ where: { email } })
+      const user = await User.findOne({ where: { account } })
       if (!user) return done(null, false)
 
       const match = await bcrypt.compare(password, user.password)

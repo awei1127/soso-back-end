@@ -21,9 +21,9 @@ const userController = {
     }
   },
   signUp: async (req, res, next) => {
-    const { name, email, password, passwordCheck } = req.body
+    const { account, name, email, password, passwordCheck } = req.body
     // 如果有空欄，回傳錯誤訊息
-    if (!name || !email || !password || !passwordCheck) {
+    if (!account || !name || !email || !password || !passwordCheck) {
       return res.json({ status: 'failure', message: 'All fields are required.' })
     }
     // 如果密碼不同，回傳錯誤訊息
@@ -31,13 +31,18 @@ const userController = {
       return res.json({ status: 'failure', message: 'Passwords do not match.' })
     }
     try {
-      const user = await User.findOne({ where: { email } })
-      // 如果email已存在，回傳錯誤訊息
-      if (user) {
+      // 如果account email已存在，回傳錯誤訊息
+      const findAccountUser = User.findOne({ where: { account } })
+      const findEmailUser = User.findOne({ where: { email } })
+      const result = await Promise.all([findAccountUser, findEmailUser])
+      if (result[0]) {
+        return res.json({ status: 'failure', message: 'Account already exists.' })
+      }
+      if (result[1]) {
         return res.json({ status: 'failure', message: 'Email already exists.' })
       }
       const hash = await bcrypt.hash(req.body.password, 10)
-      const createdUser = await User.create({ name, email, password: hash })
+      const createdUser = await User.create({ account, name, email, password: hash })
       const userData = createdUser.toJSON()
       delete userData.password
       res.json({
