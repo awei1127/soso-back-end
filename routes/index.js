@@ -9,5 +9,6 @@ const userController = require('../controllers/user-controller')
 // const upload = require('../middleware/multer')
 
 router.post('/api/v1/signin', passport.authenticate('local', { session: false }), userController.signIn)
+router.post('/api/v1/signup', userController.signUp)
 
 module.exports = router
