@@ -5,12 +5,17 @@ const authenticated = require('../middleware/auth')
 const userController = require('../controllers/user-controller')
 const cartController = require('../controllers/cart-controller')
 const productController = require('../controllers/product-controller')
+const categoryController = require('../controllers/category-controller')
 // const { errorHandler } = require('../middleware/error-handler')
 // const upload = require('../middleware/multer')
 
 router.get('/api/v1/products', productController.getProducts)
+router.get('/api/v1/categories', categoryController.getCategories)
 router.post('/api/v1/signup', userController.signUp)
 router.post('/api/v1/signin', passport.authenticate('local', { session: false }), userController.signIn)
-router.get('/api/v1/cart/:userId', authenticated, cartController.getCartItems)
+router.post('/api/v1/cart', authenticated, cartController.addCartItem)
+router.delete('/api/v1/cart', authenticated, cartController.removeCartItem)
+router.put('/api/v1/cart', authenticated, cartController.toggleCartItem)
+router.get('/api/v1/cart', authenticated, cartController.getCartItems)
 
 module.exports = router
