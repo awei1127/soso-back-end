@@ -20,7 +20,7 @@ const shopController = {
     let { price, stock, isPublic } = req.body
     let filePath
     if (!name || !price || !stock || !description || !isPublic) {
-      return res.json({ status: 'failure', message: 'All required.' })
+      return res.status(400).json({ status: 'failure', message: 'All required.' })
     }
     // 把multer處理過的form-data資料轉換成期望的型別
     try {
@@ -32,7 +32,7 @@ const shopController = {
     }
     // 檢查price和stock是否大於0且是整數
     if (price <= 0 || stock <= 0 || !Number.isInteger(price) || !Number.isInteger(stock)) {
-      return res.json({ status: 'failure', message: 'Invalid value.' })
+      return res.status(400).json({ status: 'failure', message: 'Invalid value.' })
     }
     try {
       if (file) {

@@ -8,7 +8,7 @@ const productController = require('../controllers/product-controller')
 const categoryController = require('../controllers/category-controller')
 const shopController = require('../controllers/shop-controller')
 const upload = require('../middleware/multer')
-// const { errorHandler } = require('../middleware/error-handler')
+const { errorHandler } = require('../middleware/error-handler')
 
 router.get('/api/v1/products', productController.getProducts)
 router.get('/api/v1/categories', categoryController.getCategories)
@@ -21,5 +21,6 @@ router.get('/api/v1/cart', authenticated, isUser, cartController.getCartItems)
 router.get('/api/v1/shop', authenticated, isSeller, shopController.getProducts)
 router.post('/api/v1/shop', authenticated, isSeller, upload.single('image'), shopController.addProduct)
 router.put('/api/v1/shop', authenticated, isSeller, shopController.toggleProduct)
+router.use('/', errorHandler)
 
 module.exports = router
