@@ -7,5 +7,21 @@ const authenticated = (req, res, next) => {
     return next()
   })(req, res, next)
 }
+const isUser = (req, res, next) => {
+  if (req.user.role !== 'user') {
+    return res.status(403).json({ status: 'failure', message: 'Permission denied.' })
+  }
+  return next()
+}
+const isSeller = (req, res, next) => {
+  if (req.user.role !== 'seller') {
+    return res.status(403).json({ status: 'failure', message: 'Permission denied.' })
+  }
+  return next()
+}
 
-module.exports = authenticated
+module.exports = {
+  authenticated,
+  isUser,
+  isSeller
+}
