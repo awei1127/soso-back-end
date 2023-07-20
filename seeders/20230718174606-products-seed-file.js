@@ -21,8 +21,8 @@ module.exports = {
         stock,
         name: faker.name.findName(),
         description: faker.lorem.text(),
-        public: true,
-        image: `https://loremflickr.com/320/320/restaurant,food/?random=${Math.random() * 100}`,
+        is_public: true,
+        image: `https://loremflickr.com/320/320/restaurant,food/?random=${Math.floor(Math.random() * 100)}`,
         created_at: new Date(),
         updated_at: new Date()
       }))
@@ -30,6 +30,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.bulkDelete('Restaurants', {})
+    await queryInterface.bulkDelete('Products', {})
   }
 }

@@ -24,7 +24,7 @@ module.exports = {
       description: {
         type: Sequelize.TEXT
       },
-      public: {
+      is_public: {
         type: Sequelize.BOOLEAN
       },
       image: {
