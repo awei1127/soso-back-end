@@ -10,7 +10,7 @@ const imgurFileHandler = async file => {
       image: fs.createReadStream(file.path),
       type: 'stream'
     })
-    return img ? img.link : null
+    return img ? img.data.link : null
   } catch (err) {
     console.error(err)
     throw err
