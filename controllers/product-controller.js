@@ -45,6 +45,9 @@ const productController = {
           order
         })
         return res.json({ status: 'success', data: products })
+      } else { // 如果關鍵字跟分類ID都沒有值，查詢所有產品
+        const products = await Product.findAll()
+        return res.json({ status: 'success', data: products })
       }
     } catch (err) {
       next(err)
