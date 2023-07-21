@@ -5,7 +5,7 @@ const productController = {
   getProducts: async (req, res, next) => {
     // 取得查詢參數
     const { categoryId, lowestPrice, highestPrice, keyword, sortBy } = req.query
-    const query = {}
+    const query = { isPublic: true }
     const order = []
     if (highestPrice) {
       query.price = { [Op.lte]: highestPrice }
