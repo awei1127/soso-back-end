@@ -8,10 +8,10 @@ const productController = {
     const query = { isPublic: true }
     const order = []
     if (highestPrice) {
-      query.price = { [Op.lte]: highestPrice }
+      query.price = { ...query.price, [Op.lte]: highestPrice }
     }
     if (lowestPrice) {
-      query.price = { [Op.gte]: lowestPrice }
+      query.price = { ...query.price, [Op.gte]: lowestPrice }
     }
     if (!sortBy || sortBy === 'newest') {
       order.push(['createdAt', 'DESC'])
