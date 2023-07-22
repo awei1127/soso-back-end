@@ -52,6 +52,18 @@ const userController = {
     } catch (err) {
       next(err)
     }
+  },
+  getUser: async (req, res, next) => {
+    // 用userId取得該使用者資料
+    const userId = req.user.id
+    try {
+      const userData = await User.findByPk(userId)
+      const user = userData.toJSON()
+      delete user.password
+      return res.json({ status: 'success', data: user })
+    } catch (err) {
+      next(err)
+    }
   }
 }
 
