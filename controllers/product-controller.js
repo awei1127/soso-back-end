@@ -7,10 +7,10 @@ const productController = {
     const { categoryId, lowestPrice, highestPrice, keyword, sortBy } = req.query
     const query = { isPublic: true }
     const order = []
-    if (highestPrice) {
+    if (highestPrice && highestPrice > 0) {
       query.price = { ...query.price, [Op.lte]: highestPrice }
     }
-    if (lowestPrice) {
+    if (lowestPrice && lowestPrice >= 0) {
       query.price = { ...query.price, [Op.gte]: lowestPrice }
     }
     if (!sortBy || sortBy === 'newest') {
