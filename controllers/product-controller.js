@@ -13,11 +13,11 @@ const productController = {
     if (lowestPrice) {
       query.price = { [Op.gte]: lowestPrice }
     }
-    if (!sortBy || sortBy === 'new') {
+    if (!sortBy || sortBy === 'newest') {
       order.push(['createdAt', 'DESC'])
-    } else if (sortBy === 'highprice') {
+    } else if (sortBy === 'highestPrice') {
       order.push(['price', 'DESC'])
-    } else if (sortBy === 'lowprice') {
+    } else if (sortBy === 'lowestPrice') {
       order.push(['price', 'ASC'])
     } else {
       order.push(['createdAt', 'DESC'])
@@ -46,7 +46,10 @@ const productController = {
         })
         return res.json({ status: 'success', data: products })
       } else { // 如果關鍵字跟分類ID都沒有值，查詢所有產品
-        const products = await Product.findAll()
+        const products = await Product.findAll({
+          where: query,
+          order
+        })
         return res.json({ status: 'success', data: products })
       }
     } catch (err) {
