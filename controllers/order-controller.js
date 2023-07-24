@@ -31,7 +31,7 @@ const orderController = {
       orderedProducts.forEach(orderedProduct => {
         const productInfo = productInfoList.find(p => p.id === orderedProduct.productId)
         if (!productInfo || orderedProduct.quantity > productInfo.stock || !productInfo.isPublic) {
-          throw new Error('Not enough stock.')
+          throw new Error(`${productInfo.name} not enough stock.`)
         }
       })
 

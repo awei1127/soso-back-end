@@ -20,7 +20,7 @@ const cartController = {
   },
   addCartItem: async (req, res, next) => {
     // 將特定商品加入購物車物品清單
-    const { productId } = req.body
+    const { productId } = req.params
     const userId = req.user.id
     const checked = true
     try {
@@ -32,7 +32,7 @@ const cartController = {
   },
   removeCartItem: async (req, res, next) => {
     // 將購物車物品從購物車物品清單移除
-    const { cartItemId } = req.body
+    const { cartItemId } = req.params
     const userId = req.user.id
     try {
       const cartItem = await CartItem.findOne({ where: { id: cartItemId, userId } })
@@ -44,7 +44,7 @@ const cartController = {
   },
   toggleCartItem: async (req, res, next) => {
     // 更改購物車物品的勾選狀態
-    const { cartItemId } = req.body
+    const { cartItemId } = req.params
     const userId = req.user.id
     try {
       const cartItem = await CartItem.findOne({ where: { id: cartItemId, userId } })
