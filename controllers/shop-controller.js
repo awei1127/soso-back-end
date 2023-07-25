@@ -46,7 +46,7 @@ const shopController = {
   },
   toggleProduct: async (req, res, next) => {
     // 下架商品
-    const { productId } = req.body
+    const { productId } = req.params
     const userId = req.user.id
     try {
       const product = await Product.findOne({ where: { id: productId, ownerId: userId } })

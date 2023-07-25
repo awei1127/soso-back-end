@@ -23,7 +23,7 @@ router.put('/api/v1/cart/:cartItemId', authenticated, isUser, cartController.tog
 router.get('/api/v1/cart', authenticated, isUser, cartController.getCartItems)
 router.get('/api/v1/shop', authenticated, isSeller, shopController.getProducts)
 router.post('/api/v1/shop', authenticated, isSeller, upload.single('image'), shopController.addProduct)
-router.put('/api/v1/shop', authenticated, isSeller, shopController.toggleProduct)
+router.put('/api/v1/shop/:productId', authenticated, isSeller, shopController.toggleProduct)
 router.use('/', errorHandler)
 
 module.exports = router
