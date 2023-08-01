@@ -20,19 +20,22 @@ const getPagination = (page = 1, limit = 20, total) => {
 
 // 傳入現在分頁、總頁數，來返回要顯示的分頁頁籤陣列
 const getPagesToShow = (currentPage, totalPage) => {
-  const WINDOW_SIZE = 10
+  const MAX_PAGES = 9
   let startPage = 1
-  let endPage = WINDOW_SIZE
+  let endPage = MAX_PAGES
 
-  if (currentPage <= Math.floor(WINDOW_SIZE / 2)) {
+  if (totalPage < MAX_PAGES) {
     startPage = 1
-    endPage = WINDOW_SIZE
-  } else if (currentPage > totalPage - Math.floor(WINDOW_SIZE / 2)) {
-    startPage = totalPage - WINDOW_SIZE + 1
+    endPage = totalPage
+  } else if (currentPage <= Math.floor(MAX_PAGES / 2)) {
+    startPage = 1
+    endPage = MAX_PAGES
+  } else if (currentPage > totalPage - Math.floor(MAX_PAGES / 2)) {
+    startPage = totalPage - MAX_PAGES + 1
     endPage = totalPage
   } else {
-    startPage = currentPage - Math.floor(WINDOW_SIZE / 2)
-    endPage = startPage + WINDOW_SIZE - 1
+    startPage = currentPage - Math.floor(MAX_PAGES / 2)
+    endPage = startPage + MAX_PAGES - 1
   }
 
   return Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index)
