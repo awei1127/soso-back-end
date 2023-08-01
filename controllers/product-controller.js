@@ -1,9 +1,14 @@
 const { Product, Category } = require('../models')
 const { Op } = require('sequelize')
+const { getOffset, getPagination } = require('../helpers/pagination-helpers')
 
 const productController = {
   getProducts: async (req, res, next) => {
     // 取得查詢參數
+    const DEFAULT_LIMIT = 20
+    const page = Number(req.query.page) || 1
+    const limit = Number(req.query.limit) || DEFAULT_LIMIT
+    const offset = getOffset(page, limit)
     const { categoryId, lowestPrice, highestPrice, keyword, sortBy } = req.query
     const query = { isPublic: true }
     const order = []
@@ -26,13 +31,19 @@ const productController = {
     try {
       if (keyword) { // 如果關鍵字有值，查詢關鍵字
         query.name = { [Op.like]: `%${keyword}%` }
-        const products = await Product.findAll({
+        const products = await Product.findAndCountAll({
           where: query,
+          limit,
+          offset,
           order
         })
-        return res.json({ status: 'success', data: products })
+        const data = {
+          products: products.rows,
+          pagination: getPagination(page, limit, products.count)
+        }
+        return res.json({ status: 'success', data })
       } else if (categoryId) { // 如果分類ID有值，查詢分類ID
-        const products = await Product.findAll({
+        const products = await Product.findAndCountAll({
           where: query,
           include: [
             {
@@ -42,15 +53,27 @@ const productController = {
               where: { id: categoryId }
             }
           ],
+          limit,
+          offset,
           order
         })
-        return res.json({ status: 'success', data: products })
+        const data = {
+          products: products.rows,
+          pagination: getPagination(page, limit, products.count)
+        }
+        return res.json({ status: 'success', data })
       } else { // 如果關鍵字跟分類ID都沒有值，查詢所有產品
-        const products = await Product.findAll({
+        const products = await Product.findAndCountAll({
           where: query,
+          limit,
+          offset,
           order
         })
-        return res.json({ status: 'success', data: products })
+        const data = {
+          products: products.rows,
+          pagination: getPagination(page, limit, products.count)
+        }
+        return res.json({ status: 'success', data })
       }
     } catch (err) {
       next(err)
