@@ -53,6 +53,16 @@ const cartController = {
     } catch (err) {
       next(err)
     }
+  },
+  countCartItem: async (req, res, next) => {
+    // 查詢購物車物品的數量
+    const userId = req.user.id
+    try {
+      const count = await CartItem.count({ where: { userId } })
+      return res.json({ status: 'success', data: count })
+    } catch (err) {
+      next(err)
+    }
   }
 }
 
